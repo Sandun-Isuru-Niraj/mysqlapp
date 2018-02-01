@@ -27,13 +27,13 @@ router.post('/onlineCustomerRegister', function(request,response) {
     console.log(" hotel customer");
     if(request.body.action=="cancel"){
 ///////////////////////////////////////////////////////////////////////////////////
-mysql_db_bookingEngine.onlineCustomerCancel( 
+mysql_db_bookingEngine.onlineCustomerCancel(
     request.body.action,
        request.body.HotelID,
        request.body.authcode,
        request.body.userData,
 
-       
+
        request.body.rooms.TypeA,
        request.body.rooms.TypeB,
        request.body.rooms.TypeC,
@@ -41,7 +41,7 @@ mysql_db_bookingEngine.onlineCustomerCancel(
        request.body.rooms.TypeE,
        request.body.rooms.TypeF,
        request.body.reason,
-       response,                              
+       response,
              function(err,customer) {
 
 if(err) {
@@ -55,8 +55,8 @@ response.json(customer);
 }
 });
 
-   
- //////////////////////////////////////////////////////////////////////////////////   
+
+ //////////////////////////////////////////////////////////////////////////////////
 }
 else{
 ///////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ mysql_db_bookingEngine.onlineCustomer(  request.body.HotelID,
     request.body.rooms.TypeD,
     request.body.rooms.TypeE,
     request.body.rooms.TypeF,
-                              
+
           function(err,customer) {
 
 if(err) {
@@ -95,13 +95,13 @@ response.json(customer);
 //checked ok
 router.post('/onlineCustomerRegisterCancel', function(request,response) {
     //console.log("hi hih i hotel customer");
-    mysql_db_bookingEngine.onlineCustomerCancel( 
+    mysql_db_bookingEngine.onlineCustomerCancel(
                                          request.body.action,
                                             request.body.HotelID,
                                             request.body.authcode,
                                             request.body.userData,
-                            
-                                            
+
+
                                             request.body.rooms.TypeA,
                                             request.body.rooms.TypeB,
                                             request.body.rooms.TypeC,
@@ -109,9 +109,9 @@ router.post('/onlineCustomerRegisterCancel', function(request,response) {
                                             request.body.rooms.TypeE,
                                             request.body.rooms.TypeF,
                                             request.body.reason,
-                                            response,                              
+                                            response,
                                                   function(err,customer) {
-     
+
         if(err) {
             response.statusCode = 500;
             response.json({"status":response.statusCode});
@@ -222,7 +222,7 @@ router.post('/customerRegistration',tokenVerification,function(request,response)
         request.body.no,
         request.body.street,
         request.body.town,
-       
+
 
 
                                             function(err,customer) {
@@ -255,7 +255,8 @@ router.post('/confirmCustomerBooking',  function(request, response) {
         request.body.roomTypeID,
         request.body.room,
         request.body.packageID,
-         
+        request.body.noOfRoom,
+
         function(err, db_msg) {
         if(err) {
             response.statusCode = 500;
@@ -302,14 +303,14 @@ router.post('/roomAvailabilty',tokenVerification,function(request,response) {
 //checked17
 router.post('/userRegistration',tokenVerification, function(request, response) {
     console.log(request.body.username + " --> " + request.body.password);
-   
+
     mysql_db_operation.registration(
                                     request.body.jobRole,
                                     request.body.email,
                                     request.body.username,
                                     request.body.password,
                                     request.body.contactNo,
-                                    request.body.status,  
+                                    request.body.status,
                                     function(err,db_msg) {
         if(err) {
             response.statusCode = 500;
@@ -321,7 +322,7 @@ router.post('/userRegistration',tokenVerification, function(request, response) {
             response.json({"status": response.statusCode});
            // response.json({"user":{status:response.statusCode}});
            // response.json({"Error":"User Not Found"});
-           
+
         } else {
             //console.log('data inserted successfuly');
             response.json(db_msg);
@@ -336,12 +337,12 @@ router.post('/userRegistration',tokenVerification, function(request, response) {
         if(err) {
             response.statusCode = 500;
             response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 300;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
@@ -393,7 +394,7 @@ router.post('/viewBookingDetails',tokenVerification,function(request, response) 
         } else {
             response.json({"user":customer});
         }
-    }); 
+    });
 	console.log(request.body);
 });
 */
@@ -434,7 +435,7 @@ router.post('/updateRoomType', tokenVerification, function(request, response) {
                                         request.body.roomCondition,
                                         request.body.price,
                                         request.body.roomTypeName,
-  
+
                                         function(err,db_msg) {
         if(err) {
             response.statusCode = 500;
@@ -447,7 +448,7 @@ router.post('/updateRoomType', tokenVerification, function(request, response) {
             response.json(db_msg);
         }
     });
-	
+
 });
 ///////////////////////////////
 //checked11
@@ -457,14 +458,14 @@ router.post('/updatePackage',tokenVerification, function(request, response) {
     mysql_db_updateTable.updatePackage(
                                        request.body.packageID,
                                        request.body.packageName,
-                                      request.body.roomTypeID, 
-                                      request.body.noOfRooms, 
-                                      request.body.mealPlan, 
-                                      request.body.wifi, 
-                                      request.body.swimPool, 
-                                      request.body.price, 
-                                      
-                                      
+                                      request.body.roomTypeID,
+                                      request.body.noOfRooms,
+                                      request.body.mealPlan,
+                                      request.body.wifi,
+                                      request.body.swimPool,
+                                      request.body.price,
+
+
                                       function(err,db_msg) {
         if(err) {
             response.statusCode = 500;
@@ -478,7 +479,7 @@ router.post('/updatePackage',tokenVerification, function(request, response) {
             response.json(db_msg);
         }
     });
-	
+
 });
 //////////////////////////////
 
@@ -492,7 +493,7 @@ router.post('/updateStaff', tokenVerification, function(request, response) {
                                      request.body.password,
                                      request.body.contactNo,
                                      request.body.status,
-                                     
+
                                      function(err,db_msg) {
         if(err) {
             response.statusCode = 500;
@@ -513,11 +514,11 @@ router.post('/updateStaff', tokenVerification, function(request, response) {
     router.post('/updateRoom', tokenVerification, function(request, response) {
         //console.log(request.body.roomType + " --> " + request.body.checkInDate);
         mysql_db_updateTable.updateRoom(request.body.roomID,
-                                        request.body.status,   
-                                        request.body.roomStatus,  
-                                        request.body.location,   
-                                        request.body.roomTypeID, 
-                              
+                                        request.body.status,
+                                        request.body.roomStatus,
+                                        request.body.location,
+                                        request.body.roomTypeID,
+
 
                                                              function(err,db_msg) {
             if(err) {
@@ -544,12 +545,12 @@ router.post('/checkOutDateChecker', tokenVerification, function(request, respons
         if(err) {
             response.statusCode = 500;
             response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
@@ -564,12 +565,12 @@ router.post('/viewCustomerCheckOut', tokenVerification, function(request, respon
         if(err) {
             response.statusCode = 500;
             response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 300;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
@@ -585,12 +586,12 @@ router.post('/viewCustomerDetails', tokenVerification, function(request, respons
         if(err) {
             response.statusCode = 500;
             response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
@@ -604,16 +605,16 @@ router.get('/viewRoomTypeDetails',tokenVerification,function(request, response) 
         if(err) {
             response.statusCode = 500;
             response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
-	
+
 });
 /////////////////////////////
 //checked6
@@ -623,16 +624,16 @@ router.get('/viewRoomsDetails',tokenVerification,function(request, response) {
         if(err) {
             response.statusCode = 500;
             response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
-	
+
 });
 ///////////////////////////////
 //checked5
@@ -642,16 +643,16 @@ router.get('/viewPackageTypeDetails',tokenVerification,function(request, respons
         if(err) {
             response.statusCode = 500;
             response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
-	
+
 });
 ///////////////////////////////
 //mobile functions
@@ -662,37 +663,37 @@ router.get('/viewAllRooms',tokenVerification,function(request,response) {
         if(err) {
             response.statusCode = 500;
            response.json({"status": response.statusCode});
-           
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-            
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //////////////////////////////////
 //checked3
 router.get('/viewAllHotelRoomsDetails',tokenVerification,function(request, response) {
     console.log("connecting...");
     mysql_db_viewDetails.viewAllHotelRoomsDetails(function(err, db_msg) {
-        
+
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 ///////////////////////////
 //viewAllHotelRoomsDetails
@@ -702,72 +703,72 @@ router.get('/viewAllBandRRooms',tokenVerification,function(request,response) {
     mysql_db_viewDetails.viewAllBandRRooms(function(err, db_msg) {
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 /////////////////////////////////////////////////////
 //checked1
 router.post('/viewAllStaff', tokenVerification,function(request, response) {
-  
+
     mysql_db_viewDetails.viewAllStaff(request.body.staff,function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //////////////////////////////////////////////////////
 //checked14
 router.post('/registerRoom', tokenVerification,function(request, response) {
-  
+
     mysql_db_operation.registerRoom(request.body.status,
                                        request.body.roomStatus,
                                        request.body.location,
                                        request.body.roomTypeID,
-                                      
+
                                        request.body.packageID,
-        
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 ///////////////////////////////////////////////////////
 //checked15
 router.post('/registerPackage', tokenVerification,function(request, response) {
-  
+
     mysql_db_operation.registerPackage(request.body.packageName,
                                        request.body.roomTypeID,
                                        request.body.noOfRooms,
@@ -775,81 +776,81 @@ router.post('/registerPackage', tokenVerification,function(request, response) {
                                        request.body.wifi,
                                        request.body.swimPool,
                                        request.body.price,
-        
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //chekced16
 ////////////////////////////////////////////////////////
 
 router.post('/registerRoomType', tokenVerification,function(request, response) {
-  
+
     mysql_db_operation.registerRoomType(
                                        request.body.roomType,
                                        request.body.noOfRooms,
                                        request.body.roomCondition,
-                                       
+
                                        request.body.price,
                                        request.body.roomTypeName,
-        
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //checked ok..
 ///////////////////////////////////////////////////////
 router.post('/PaymentProcess', tokenVerification,function(request, response) {
-  
+
     mysql_db_operation.PaymentProcess(
                                        request.body.amount,
                                        request.body.paymentType,
                                        request.body.status,
-                                       request.body.NIC,       
+                                       request.body.NIC,
                                        request.body.EID,
-        
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 
 
@@ -857,65 +858,65 @@ router.post('/PaymentProcess', tokenVerification,function(request, response) {
 ////////////////////////////////////////////////////////////////////
 //
 router.post('/customerUpdate', tokenVerification,function(request, response) {
-  
+
     mysql_db_updateTable.customerUpdate(
                                        request.body.NIC,
                                        request.body.firstName,
                                        request.body.lastName,
-                                       request.body.gender,       
+                                       request.body.gender,
                                        request.body.email,
                                        request.body.DOB,
                                        request.body.contactNo,
                                        request.body.country,
-                                      
-        
+
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 
 /////////////////////////////////////////
 //checked okk
 router.post('/viewCustomerBooking', tokenVerification,function(request, response) {
-  
+
     mysql_db_viewDetails.viewCustomerBooking(
                                        request.body.NIC,
-                                    
-                                      
+
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //////////////////////////////////////////////////////////////
 //checked okk
 router.post('/updateCustomerBooking', tokenVerification,function(request, response) {
-  
+
     mysql_db_updateTable.updateCustomerBooking(
                                        request.body.bookingID,
                                        request.body.NIC,
@@ -928,96 +929,96 @@ router.post('/updateCustomerBooking', tokenVerification,function(request, respon
                                        request.body.checkOutDate,
                                        request.body.EID,
                                        request.body.packageID,
-                                      
-                                      
+
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //checked
 ///////////////////////////////////////////////////////////////
 router.get('/monthlyBookingReport', tokenVerification,function(request, response) {
-  
+
     mysql_db_viewDetails.monthlyBookingReport(
-                                       
-                                      
+
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //checked
 //////////////////////////////////////////////////////////
 router.get('/countryBookingReport', tokenVerification,function(request, response) {
-  
+
     mysql_db_viewDetails.countryBookingReport(
-                                       
-                                      
+
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 //checked
 /////////////////////////////////////////////////////////
 router.get('/roomTypeBookingReport', tokenVerification,function(request, response) {
-  
+
     mysql_db_viewDetails.roomTypeBookingReport(
-                                       
-                                      
+
+
                                     function(err, db_msg) {
         console.log("connecting...");
         if(err) {
             response.statusCode = 500;
-        
+
             response.json({"status": response.statusCode});
-            
+
         } else if(!db_msg) {
             response.statusCode = 404;
             response.json({"status": response.statusCode});
         } else {
-           
+
             response.json(db_msg);
         }
     });
-	
+
 });
 /////////////////////////////////////////////////////////////
 module.exports = router;

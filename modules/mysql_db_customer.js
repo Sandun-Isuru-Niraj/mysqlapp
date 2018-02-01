@@ -1,5 +1,4 @@
- var sesionauth = "hjnwjver15eadcr151sdvrcdscwevrvdscw5662";
- //Node.js core modules
+
 //Node.js core modules
 var path = require('path');
 
@@ -104,7 +103,7 @@ function confirmCustomerBooking(
     roomTypeID,
     roomArray,
     packageID,
-
+    noOfRoom,
         callback) {
             console.log(roomArray);
 
@@ -118,7 +117,7 @@ function confirmCustomerBooking(
         var roomIDArray = [];
         roomIDArray = roomArray;
         var i ;
-        var  RoomCount = (roomIDArray.length-1);
+        var  RoomCount = ((roomIDArray.length)-1);
         var  noOfRooms;
         var updatedNoOfRooms;
         var bookingID;
@@ -130,12 +129,14 @@ function confirmCustomerBooking(
             var enterData = {
                 noOfChildren:noOfChildren,
                 noOfAdults:noOfAdults,
-                noOfRooms:noOfRooms,
+              //  noOfRooms:noOfRooms,
                 bookingstatus:status,
                 checkInDate:checkInDate,
                 checkOutDate:checkOutDate,
                 EID:EID,
                 NIC: NIC,
+                noOfRooms:noOfRoom,
+                bookingType:bookingType,
                 //roomTypeID:roomTypeID,
                // roomID:roomID,
                 packageID:packageID,
@@ -219,6 +220,7 @@ var updatingRoomStatus = function(packageID,bookingID,i, updatedNoOfRooms,noOfRo
                 else {
                     console.log(roomTypeID);
                     if(i==RoomCount){
+                      console.log(RoomCount+"gdfggfgfgfgfgjhjhjhjhhhjhjhjhjhjhjhjh");
                         data = "booking details inserted";
                         updatingnoOfRooms(updatedNoOfRooms,noOfRooms,RoomCount,roomTypeID,callback);
                         console.log(roomTypeID+"66666666666666666666666666666666666666666");
@@ -272,8 +274,10 @@ var updatingnoOfRooms = function(updatedNoOfRooms,noOfRooms,RoomCount,roomTypeID
                      else {
 
                       noOfRooms = rows[0].noOfRooms;
-                      updatedNoOfRooms = noOfRooms-RoomCount;
-     connection.query('UPDATE roomType SET noOfRooms = ? WHERE RoomTypeID = ?;',[updatedNoOfRooms,roomTypeID], function (err,rows) {
+                      updatedNoOfRooms = noOfRooms-(RoomCount+1);
+                      console.log(updatedNoOfRooms + "ttttttttttttttttttttttttt");
+                      console.log(roomTypeID + "rrrrrrrrrrrrrrrrrrrrrrrrr");
+     connection.query('UPDATE roomtype SET noOfRooms = ? WHERE RoomTypeID = ?;',[updatedNoOfRooms,roomTypeID], function (err,rows) {
 
                 if (err) {
                     connection.release();
@@ -296,8 +300,8 @@ var updatingnoOfRooms = function(updatedNoOfRooms,noOfRooms,RoomCount,roomTypeID
                         passNoOfRooms:updatedNoOfRooms
                     }
                    var Data = {
-                        "HotelID":1,
-                        "authcode": sesionauth,
+                       // "HotelID":HotelID,
+                       // "authcode": auth,
                         data
                    };
 
@@ -341,9 +345,9 @@ var sendApi = function(Data){
   //   path    : '/api/reportback',
     //////////////////////////////////////////////////////////////////////////////////////
     var post_options = {
-        //hostname: '10.10.30.127',
-        hostname: 'booking.pal.morasquad.me',
-        port    : 80,
+        hostname: '10.10.30.127',
+       // hostname: 'admin.pal.morasquad.me',
+        port    : 8000,
         path    : '/api/reportback',
        // path    : '/api/check',
         json: true,

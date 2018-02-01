@@ -22,14 +22,14 @@ function viewRoomsDetails(callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
             callback(err, null);
-        }
+        } 
         else {
             connection.query('SELECT * FROM room;', function (err, rows) {
 			  //  console.log(rows[0].password);
                 if (err) {
                     connection.release();
                     callback(err, null);
-                }
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
@@ -55,14 +55,14 @@ function viewRoomTypeDetails(roomType,callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
             callback(err, null);
-        }
+        } 
         else {
             connection.query('SELECT * FROM roomtype;', function (err, rows) {
 			  //  console.log(rows[0].password);
                 if (err) {
                     connection.release();
                     callback(err, null);
-                }
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
@@ -88,14 +88,14 @@ function viewPackageTypeDetails(callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
             callback(err, null);
-        }
+        } 
         else {
             connection.query('SELECT * FROM package;', function (err, rows) {
 			  //  console.log(rows[0].password);
                 if (err) {
                     connection.release();
                     callback(err, null);
-                }
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
@@ -121,14 +121,14 @@ function viewCustomerDetails(NIC, callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
             callback(err, null);
-        }
+        } 
         else {
             connection.query('SELECT * FROM customer WHERE NIC = ? ;', [NIC], function (err, rows) {
-
+		
                 if (err) {
                     connection.release();
                     callback(err, null);
-                }
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
@@ -154,17 +154,17 @@ function viewAllHotelRoomsDetails(callback) {
         if (err) {
             callback(err, null);
             connection.release();
-        }
+        } 
         else {
             //'SELECT roomID,condition,location,roomTypeID FROM roomandroomtype ;'
            // connection.query('SELECT * FROM customer WHERE NIC = ? ;', [NIC], function (err, rows) {
 		 connection.query('SELECT roomID,roomCondition,location,roomTypeID FROM roomandroomtype ORDER BY roomID  ;',function(err, rows) {
-			  //
+			  // 
                 if (err) {
                     connection.release();
                     callback(err, null);
                     console.log(err);
-                }
+                } 
                 else {
                      if(!rows[0]) {
                         connection.release();
@@ -192,14 +192,14 @@ function viewCustomerCheckOut(NIC,callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
             callback(err, null);
-        }
+        } 
         else {
             connection.query('SELECT * FROM booking WHERE NIC = ? ORDER BY bookingID DESC ;',[NIC], function (err, rows) {
-
+		
                 if (err) {
                     connection.release();
                     callback(err, null);
-                }
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
@@ -224,21 +224,21 @@ function viewAllRooms(callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
             callback(err, null);
-        }
+        } 
         else {
             connection.query('SELECT roomID,location,roomTypeName FROM roomandroomtype WHERE status = ? AND roomStatus = ? ;',["free","enable"], function (err, rows) {
 			  //  console.log(rows[0].password);
                 if (err) {
                     connection.release();
                     callback(err, null);
-                }
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
                         callback(null, false);
                     } else {
-
-
+                        
+                       
                             var data = rows;
                             var Data = {
                                 status:200,
@@ -260,8 +260,8 @@ function viewAllBandRRooms(callback) {
         if (err) {
             callback(err, null);
             connection.release();
-
-        }
+            
+        } 
         else {
             connection.query('SELECT roomID,checkInDate,checkOutDate FROM roomandbooking WHERE (status = ? OR status = ? ) AND roomStatus = ? ;',["booked","reserved","enable"], function (err, rows) {
 			  //  console.log(rows[0].password);
@@ -269,8 +269,8 @@ function viewAllBandRRooms(callback) {
                     connection.release();
                     callback(err, null);
                     console.log(err);
-
-                }
+           
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
@@ -301,8 +301,8 @@ function viewAllStaff(staff,callback) {
         if (err) {
             callback(err, null);
             connection.release();
-
-        }
+            
+        } 
         else {
             connection.query('SELECT EID,jobRole,email,username,contactNo,status,regDate FROM staff ORDER BY EID ;', function (err, rows) {
 			  //  console.log(rows[0].password);
@@ -310,13 +310,13 @@ function viewAllStaff(staff,callback) {
                     connection.release();
                     callback(err, null);
                     console.log(err);
-
-                }
+           
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
                         callback(err,null);
-
+                       
                     }
                      else {
                             var data = rows;
@@ -340,8 +340,8 @@ function viewCustomerBooking(NIC,callback) {
         if (err) {
             callback(err, null);
             connection.release();
-
-        }
+            
+        } 
         else {
            // connection.query('SELECT EID,jobRole,email,username,contactNo,status,regDate FROM staff ORDER BY EID ;', function (err, rows) {
             connection.query('SELECT * FROM booking WHERE NIC = ? ORDER BY bookingID DESC  limit 1;',[NIC], function(err,rows){
@@ -351,13 +351,13 @@ function viewCustomerBooking(NIC,callback) {
                     connection.release();
                     callback(err, null);
                     console.log(err);
-
-                }
+           
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
                         callback(err,null);
-
+                       
                     }
                      else {
                             var data = rows;
@@ -383,8 +383,8 @@ function monthlyBookingReport(callback) {
         if (err) {
             callback(err, null);
             connection.release();
-
-        }
+            
+        } 
         else {
             connection.query('SELECT * FROM analysingbooking ;', function (err, rows) {
 			  //  console.log(rows[0].password);
@@ -392,17 +392,17 @@ function monthlyBookingReport(callback) {
                     connection.release();
                     callback(err, null);
                     console.log(err);
-
-                }
+           
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
                         callback(err,null);
-
+                       
                     }
                      else {
 
-
+                        
 //console.log( authCodeChecker+"///////////////////////////////////////////////////////" );
                             var data = rows;
                             var Data = {
@@ -426,8 +426,8 @@ function countryBookingReport(callback) {
         if (err) {
             callback(err, null);
             connection.release();
-
-        }
+            
+        } 
         else {
             connection.query('SELECT * FROM analysingcustomer ;', function (err, rows) {
 			  //  console.log(rows[0].password);
@@ -435,13 +435,13 @@ function countryBookingReport(callback) {
                     connection.release();
                     callback(err, null);
                     console.log(err);
-
-                }
+           
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
                         callback(err,null);
-
+                       
                     }
                      else {
                             var data = rows;
@@ -465,8 +465,8 @@ function roomTypeBookingReport(callback) {
         if (err) {
             callback(err, null);
             connection.release();
-
-        }
+            
+        } 
         else {
             connection.query('SELECT * FROM analysingroomtype ;', function (err, rows) {
 			  //  console.log(rows[0].password);
@@ -474,13 +474,13 @@ function roomTypeBookingReport(callback) {
                     connection.release();
                     callback(err, null);
                     console.log(err);
-
-                }
+           
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
                         callback(err,null);
-
+                       
                     }
                      else {
                             var data = rows;

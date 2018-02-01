@@ -16,7 +16,7 @@ var config = require('../configurations/config');
 var main_con_pool = mysql.createPool(config.config_main_db_pool_con_options);
 
 // secret variable
-//app.set('superSecret',config.config_session_secret);
+//app.set('superSecret',config.config_session_secret); 
 
 //asynchronous function to use in login operation
 function login(username, password, callback) {
@@ -24,14 +24,14 @@ function login(username, password, callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
             callback(err,null);
-        }
+        } 
         else {
             connection.query('SELECT * FROM staff WHERE username = ? ;', [username], function (err, rows) {
 			  //  console.log(rows[0].password);
                 if (err) {
                     connection.release();
                     callback(err,null);
-                }
+                } 
                 else {
                     if(!rows[0]) {
                         connection.release();
@@ -39,12 +39,12 @@ function login(username, password, callback) {
                     } else {
                                   // Load hash db_password and checking
                         bcrypt.compare(password,rows[0].password, function(err, res) {
-                         // console.log(password);
+                         // console.log(password);  
                          // console.log(rows[0].password);
-                        // res === true
+                        // res === true 
                         if(err) {
 							connection.release();
-                            callback(new Error('Password doesn\'t match'));
+                            callback(new Error('Password doesn\'t match'));   
                         }
                         else{
                            // if(rows[0].password==="enable"){ ////adding new
@@ -62,7 +62,7 @@ function login(username, password, callback) {
                                             expiresIn: 60*60*24
                                             //,
                                            // function(err,res) {
-
+                                                
                                            // }
                                              // expires in 24 hours
                                         });
@@ -73,7 +73,7 @@ function login(username, password, callback) {
                                             message: 'Enjoy your token!',
                                             token: token
                                         }
-
+                                
                                         // return the information including token as JSON
                                        res.json({
                                             success: true,
@@ -81,12 +81,12 @@ function login(username, password, callback) {
                                             token: token
                                         }); */
 
-
+                              
                                 console.log(res);
                                 //callback(null,res);
 
                                 var data = {
-
+                                    
                                 }
                                 callback(null,rows[0].jobRole);
                                // callback(null,true);
@@ -117,12 +117,12 @@ function login(username, password, callback) {
 						//console.log(rows);
                        // if(password === rows[0].password) {
                            // connection.release();
-                           // callback(null, {status:true,msg:"Login successful"});
+                           // callback(null, {status:true,msg:"Login successful"}); 
                            // callback(null, {username: rows[0].username}); //check
-                        }
-
+                        } 
+                      
                     }
-
+                
             });
         }
     });
@@ -131,39 +131,39 @@ function login(username, password, callback) {
 
 function registration(jobRole,email,username,password,contactNo,status,callback){
     // Store hash in  password DB.
-    bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.genSalt(10, function(err, salt) { 
         bcrypt.hash(password, salt, function(err,hash) {
             if(err){
-
+              
                 callback(err,null);
             }
-            console.log(hash);
+            console.log(hash); 
             password = hash;
-            console.log("////////////////hashing");
+            console.log("////////////////hashing"); 
         });
     });
 
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
-
+           
             callback(err,null);
             connection.release();
         }
          else {
-
+        
             var data;
             var Data;
-
+                   
            // console.log("querrry error.....................");
             connection.query('SELECT username FROM staff WHERE username = ? ;', [username], function (err, rows) {
                 if (err) {
                     connection.release();
                     console.log("querrry error.....................");
-                    callback(err,null);
+                    callback(err,null); 
                 }
                 else if(rows[0]){
                     //console.log(username+"detected.............");
-
+                           
                     // callback(null,{status:false,msg:"Username already exists"});
                     data = "username already exist";
                     Data = {
@@ -173,11 +173,11 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                    }
                      callback(null,Data);
                              console.log('existing username..'+rows[0].username);
-                             connection.release();
+                             connection.release();  
                            // }
                         }
                 else{
-
+                     
                         console.log("inseting............");
                         var post = {
                             jobRole:jobRole,
@@ -188,14 +188,14 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                             status:status }
 
                  connection.query('INSERT INTO staff SET ?',post, function(err,result){
-                        //console.log(hash);
+                        //console.log(hash); 
                         if (err) {
                              //console.log(date+" error with query////////////////////////////////////////////");
                             console.log("inserting error");
                             connection.release();
                             callback(err, null);
-
-                                }
+                          
+                                } 
                          else{
                             console.log('ok....');
                              data = "user registered";
@@ -207,20 +207,20 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                             connection.release();
                             console.log(Data);
                             callback(null,Data);
-
+                           
                            // callback(null,{status:true,msg:"User is registered successfully"});
                            // console.log(result);
-
-                            }
+                           
+                            }              
                });
             }
-
-          //  console.log(query.sql)
-           //console.log("there is an error");
+          
+          //  console.log(query.sql) 
+           //console.log("there is an error");             
        // }
-
-
-
+                
+            
+                   
         });
       }
      });
@@ -231,7 +231,7 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                           location,
                           roomTypeID,
                           packageID,
-
+                                
                                              callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
@@ -252,7 +252,7 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 callback(err, null);
                 console.log(err);
 
-                    }
+                    } 
             else{
                 console.log(' data inserted');
                 var Data =
@@ -262,9 +262,9 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 }
                 callback(null,Data);
                 connection.release();
-
-
-                }
+                
+                
+                }     
    });
         }
     });
@@ -275,7 +275,7 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                           location,
                           roomTypeID,
                           packageID,
-
+                                
                                              callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
@@ -296,7 +296,7 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 callback(err, null);
                 console.log(err);
 
-                    }
+                    } 
             else{
                 console.log(' data inserted');
                 var Data =
@@ -306,9 +306,9 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 }
                 callback(null,Data);
                 connection.release();
-
-
-                }
+                
+                
+                }     
    });
         }
     });
@@ -321,7 +321,7 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                           location,
                           roomTypeID,
                           packageID,
-
+                                
                                              callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
@@ -342,7 +342,7 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 callback(err, null);
                 console.log(err);
 
-                    }
+                    } 
             else{
                 console.log(' data inserted');
                 var Data =
@@ -352,9 +352,9 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 }
                 callback(null,Data);
                 connection.release();
-
-
-                }
+                
+                
+                }     
    });
         }
     });
@@ -366,7 +366,7 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                           location,
                           roomTypeID,
                           packageID,
-
+                                
                                              callback) {
     main_con_pool.getConnection(function (err, connection) {
         if (err) {
@@ -380,14 +380,14 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 packageID: packageID,
             };
             var query = connection.query('INSERT INTO room SET ?', post, function(err,result){
-
+  
              if (err) {
                 console.log(" error with query");
                 connection.release();
                 callback(err, null);
                 console.log(err);
 
-                    }
+                    } 
             else{
                 console.log(' data inserted');
                 var Data =
@@ -397,9 +397,9 @@ function registration(jobRole,email,username,password,contactNo,status,callback)
                 }
                 callback(null,Data);
                 connection.release();
-
-
-                }
+                
+                
+                }     
    });
         }
     });
@@ -413,12 +413,12 @@ function registerPackage(
        wifi,
        swimPool,
        price,
-
+          
                        callback) {
 main_con_pool.getConnection(function (err, connection) {
     if (err) {
         callback(err, null);
-    }
+    } 
     else
      {
         var post = {
@@ -432,7 +432,7 @@ main_con_pool.getConnection(function (err, connection) {
             price: price,
 
 
-};
+};  
     var query = connection.query('INSERT INTO package SET ?', post, function(err,result){
 
     if (err) {
@@ -441,7 +441,7 @@ main_con_pool.getConnection(function (err, connection) {
     callback(err, null);
     console.log(err);
 
-}
+} 
     else{
     console.log(' data inserted');
     var Data =
@@ -453,7 +453,7 @@ main_con_pool.getConnection(function (err, connection) {
     connection.release();
 
 
-    }
+    }     
     });
     }
     });
@@ -462,31 +462,31 @@ main_con_pool.getConnection(function (err, connection) {
 
     //////////////////////////////////////////////////////////
 function registerRoomType(
-
-
+     
+      
        roomType,
        noOfRooms,
        roomCondition,
        price,
        roomTypeName,
-
-
+     
+          
                        callback) {
 main_con_pool.getConnection(function (err, connection) {
     if (err) {
         callback(err, null);
-    }
+    } 
     else
      {
         var post = {
-
+         
             roomType:roomType,
             noOfRooms:noOfRooms,
             roomCondition : roomCondition,
             price : price,
             roomTypeName: roomTypeName,
 
-};
+};  
     var query = connection.query('INSERT INTO roomType SET ?', post, function(err,result){
 
     if (err) {
@@ -495,7 +495,7 @@ main_con_pool.getConnection(function (err, connection) {
     callback(err, null);
     console.log(err);
 
-}
+} 
     else{
     console.log(' data inserted');
     var Data =
@@ -507,7 +507,7 @@ main_con_pool.getConnection(function (err, connection) {
     connection.release();
 
 
-    }
+    }     
     });
     }
     });
@@ -516,19 +516,19 @@ main_con_pool.getConnection(function (err, connection) {
 
 //////////////////////////////////////////////////////////////////////////////
 
-function PaymentProcess(
+function PaymentProcess(  
     amount,
     paymentType,
     status,
-    NIC,
+    NIC,       
     EID,
-
+  
                   callback) {
  main_con_pool.getConnection(function (err, connection) {
  if (err) {
      callback(err, null);
      connection.release();
- }
+ } 
 
 
  else
@@ -541,7 +541,7 @@ connection.query('SELECT bookingID FROM booking WHERE NIC = ? ORDER BY bookingID
      connection.release();
        callback(err, null);
        console.log(err);
-
+   
        }
        else{
 
@@ -549,22 +549,22 @@ connection.query('SELECT bookingID FROM booking WHERE NIC = ? ORDER BY bookingID
                              connection.release();
                              callback(err,null);
                               console.log("no rows....");
-                             }
-
+                             }      
+   
             else{
                 console.log(rows);
                 var bookingID = rows[0].bookingID;
-
+         
 ///////////////////////////////////////////////////////////////////////////
         var post = {
-          bookingID:bookingID,
+          bookingID:bookingID,  
           amount:amount,
           paymentType:paymentType,
-          status:status,
+          status:status,     
           EID:EID,
           NIC:NIC
 
-   };
+   };  
  connection.query('INSERT INTO billing SET ?', post, function(err,result){
 
     if (err) {
@@ -573,7 +573,7 @@ connection.query('SELECT bookingID FROM booking WHERE NIC = ? ORDER BY bookingID
         callback(err, null);
         // console.log(err);
 
-    }
+    } 
 
     else{
          console.log('bill paid');
@@ -615,51 +615,51 @@ module.exports.PaymentProcess=PaymentProcess;
                     }
                     else if(password=== rows[0].password) {
 
-
+                       
                     }*/
-
+        
                 // console.log('conection ok.............');
-                // for(var i=0;i<rows.length;i++){
+                // for(var i=0;i<rows.length;i++){    
                    //   console.log("checking.."+i);
 
                  // if(password === rows[i].password){
                      //  console.log( rows[i].password);
                       //  console.log('existing password..');
-
-
-
+                     
+                      
+                      
                       /*
                       function login(username, password, callback) {
-
+                        
                             main_con_pool.getConnection(function (err, connection) {
                                 if (err) {
                                     callback(err, null);
-                                }
+                                } 
                                 else {
                                     connection.query('SELECT * FROM users WHERE username = ? ;', [username], function (err, rows) {
                                       //  console.log(rows[0].password);
                                         if (err) {
                                             connection.release();
                                             callback(err, null);
-                                        }
+                                        } 
                                         else {
                                             if(!rows[0]) {
                                                 connection.release();
                                                 callback(null, false);
                                             } else {
-
-                                                // Load hash from your password DB.
+                                                
+                                                // Load hash from your password DB. 
                                                 bcrypt.compare(password, hash, function(err, res) {
-                                                // res === true
+                                                // res === true 
                                                             });
-
-
+                        
+                        
                                                 console.log(rows);
                                                // if(password === rows[0].password) {
                                                     connection.release();
-                                                    callback(null, {status:true,msg:"Login successful"});
+                                                    callback(null, {status:true,msg:"Login successful"}); 
                                                    // callback(null, {username: rows[0].username}); //check
-                                                }
+                                                } 
                                                 if(err) {
                                                     connection.release();
                                                     callback(new Error('Password doesn\'t match'));
@@ -670,4 +670,4 @@ module.exports.PaymentProcess=PaymentProcess;
                                 }
                             });
                         }
-*/
+*/                        
