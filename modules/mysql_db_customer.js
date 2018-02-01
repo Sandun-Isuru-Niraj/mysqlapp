@@ -1,4 +1,4 @@
- var sesionauth = hjnwjver15eadcr151sdvrcdscwevrvdscw5662;
+ var sesionauth = "hjnwjver15eadcr151sdvrcdscwevrvdscw5662";
  //Node.js core modules
 //Node.js core modules
 var path = require('path');
